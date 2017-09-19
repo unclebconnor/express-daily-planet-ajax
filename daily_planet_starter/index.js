@@ -35,15 +35,41 @@ app.get('/articles/:index', function(req, res) {
     }
 });
 
+app.get('/articles/edit/:index', function(req, res) {
+    var index = parseInt(req.params.index);
+    if (index < articles.length && index >= 0) {
+        res.render('articles/edit', { article: articles[req.params.index], index: req.params.index });
+    } else {
+        res.send('Error');
+    }
+});
+
 app.post('/articles', function(req, res) {
     articles.push(req.body);
     res.redirect('/articles');
+});
+
+app.put('/articles/edit/:idx', function(req, res) {
+    var idx = parseInt(req.params.idx);
+    articles[idx].title = req.body.title;
+    articles[idx].body = req.body.body;
+    res.redirect('articles/');
+    res.send({message: 'success'});
 });
 
 app.get('/about', function(req, res) {
     res.render('about');
 });
 
-app.listen(3000, function() {
+
+
+app.delete('/articles/:idx', function(req, res) {
+  var delIndex = req.params.idx;
+  delIndex = parseInt(delIndex);
+    articles.splice(delIndex,1);
+  });
+
+
+  app.listen(3000, function() {
     console.log("You're listening to the smooth sounds of port 3000 in the morning");
 });

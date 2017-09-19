@@ -5,5 +5,24 @@
 <% articles.forEach(function(article, idx) { %>
   <div class="well">
     <a href="/articles/<%= idx %>"><h2><%= article.title %></h2></a>
+    <a class="edit-link" href="/articles/edit/<%= idx %>">Edit</a>
+    <a class="delete-link" href="/articles/<%= idx %>">Delete</a>
   </div>
 <% }); %>
+
+<script>
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+<script>
+  $('.delete-link').on('click', function(e) {
+    e.preventDefault();
+    var deleteUrl = $(this).attr('href');
+    $.ajax({
+      method: 'DELETE',
+      url: deleteUrl
+    }).done(function(data) {
+    });
+  });
+</script>
